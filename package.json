@@ -11,8 +11,6 @@
     "request": "^2.74.0"
   },
   "devDependencies": {
-  	//If you using the NODIST then launch the command of following ahead.
-  	//npm config set prefix "%NODIST_PREFIX%\bin"
     "gulp": "^3.9.1",
     "gulp-zip": "^3.2.0"
   }
