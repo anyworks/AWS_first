@@ -13,7 +13,7 @@ exports.handler = (event, context, callback) => {
     	function(error, response, body) {
     		var $ = cheerio.load(body); //取得したページのbody部をパース
 
-    		$(".entry-title > a").each(function() { //パースした内容にはjQuery風のセレクタでアクセスできる
+    		$("a").each(function() { //パースした内容にはjQuery風のセレクタでアクセスできる
     			var link = $(this);
     			var text = link.text();
     			var href = link.attr("href");

@@ -1,3 +1,10 @@
-var t = require("../index");
+var context = {
+  done : function(){
+    console.log("#####################");
+    console.log(arguments);
+  }
+}
 
-console.log(t);
+var t = require("../index");
+t.handler({key:""},context,function(){})
+console.log();
