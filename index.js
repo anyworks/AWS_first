@@ -1,35 +1,34 @@
-var imples = {};
-var merge = require('merge');
-
-imples.httprequest = function() {
-    'use strict';
-    var request = require("request");
-    var cheerio = require("cheerio");
-    request({
-            uri: "http://www.google.com/",
-        },
-        function(error, response, body) {
-            var $ = cheerio.load(body); //取得したページのbody部をパース
-
-            $("a").each(function() { //パースした内容にはjQuery風のセレクタでアクセスできる
-                var link = $(this);
-                var text = link.text();
-                var href = link.attr("href");
-
-                console.log(text + " -> " + href);
-            });
-        }
-    );
-};
-
 exports.handler = function(event, context, callback) {
-    var aws = require("./mymodules/aws").AWS;
+    //var aws = require("./mymodules/aws").AWS;
     //aws.apacrequest();
 
     //Promise
-    var estat = require("./mymodules/estat").Estat;
-    estat.invokeRequest("getStatsList").then(function(res){
-      console.log("%j",res);
+    //var estat = require("./mymodules/estat").Estat;
+    // estat.invokeRequest("getStatsList").then(function(res){
+    //   console.log("%j",res);
+    // });
+
+    var p = require("./mymodules/http1").HttpParsers;
+    function parser (res) {
+      var cheerio = require('cheerio');
+      var $ = cheerio.load(res);
+
+      var c = $(".node-video").map(function(i,e){
+        var t = $(e).find("a");
+        var r = {};
+        r[t.text()] = t.attr("href");
+        return r;
+      }).get();
+      return c;
+    }
+    var promises = [];
+    Promise.all(promises).then(function(values){
+      var last = values.reduce(function(prev,c){
+         var ret = prev.concat(c);
+         return ret;
+       },[]);
+
+       console.log("%j",last);
     });
 
     context.done(null, {
