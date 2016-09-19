@@ -1,11 +1,38 @@
 const gulp = require('gulp');
 const zip = require('gulp-zip');
+const install = require('gulp-install');
+const del = require('del');
+var mkdirp = require('mkdirp');
 
-gulp.task('default', () => {
-    return gulp.src([
-      'index.js'
+gulp.task('clean', del.bind(null, ['./dist']));
+
+gulp.task('production', function() {
+  return gulp.src("./package.json")
+    .pipe(gulp.dest('dist/production'))
+    .pipe(install({production: true}));
+});
+gulp.task('mine', function() {
+  mkdirp('./dist/production', function (err) {
+    if (err) console.error(err);
+    else console.log('pow!');
+  });
+
+  return gulp.src([
+    './*.js',
+    'my/**'
     ],{base : '.'})
-        .pipe(zip('AWS_fisrt.zip'))
+    .pipe(gulp.dest('dist/production'));
+  });
+gulp.task('default',["clean"], function() {
+  mkdirp('./dist/production', function (err) {
+    if (err) console.error(err);
+    else console.log('pow!');
+  });
+
+    return gulp.src([
+      'dist/production/**',
+    ],{base : 'dist/production/'})
+        .pipe(zip('module.zip'))
         .pipe(gulp.dest('dist'));
 });
 

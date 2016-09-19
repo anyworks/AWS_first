@@ -8,7 +8,7 @@ exports.handler = function(event, context, callback) {
     //   console.log("%j",res);
     // });
 
-    var p = require("./mymodules/http1").HttpParsers;
+    var p = require("./my/modules/http1").HttpParsers;
     function parser (res) {
       var cheerio = require('cheerio');
       var $ = cheerio.load(res);
@@ -21,7 +21,9 @@ exports.handler = function(event, context, callback) {
       }).get();
       return c;
     }
+
     var promises = [];
+    promises.push(p.httprequest("prseURL",parser));
     Promise.all(promises).then(function(values){
       var last = values.reduce(function(prev,c){
          var ret = prev.concat(c);

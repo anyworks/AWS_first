@@ -23,7 +23,7 @@ console.log = function() {
     }
 };
 
-var t = require("../index");
+var t = require("../main");
 t.handler({
     key: ""
-}, context, function() {})
+}, context, function() {});

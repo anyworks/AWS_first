@@ -1,6 +1,5 @@
 (function() {
     'use strict';
-    var merge = require('merge');
     var Module = function() {};
 
     Module.prototype.httprequest = function(url,parser) {
