@@ -1,14 +1,14 @@
 exports.handler = function(event, context, callback) {
-    //var aws = require("./mymodules/aws").AWS;
+    //var aws = require("./awsmodulesmodules/aws").AWS;
     //aws.apacrequest();
 
     //Promise
-    //var estat = require("./mymodules/estat").Estat;
+    //var estat = require("./awsmodulesmodules/estat").Estat;
     // estat.invokeRequest("getStatsList").then(function(res){
     //   console.log("%j",res);
     // });
 
-    var p = require("./my/modules/http1").HttpParsers;
+    var p = require("./awsmodules/modules/http1").HttpParsers;
     function parser (res) {
       var cheerio = require('cheerio');
       var $ = cheerio.load(res);
