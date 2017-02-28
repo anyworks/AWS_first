@@ -4,12 +4,11 @@ const install = require('gulp-install');
 const del = require('del');
 var mkdirp = require('mkdirp');
 
-gulp.task('clean', del.bind(null, ['./dist/production']));
+gulp.task('clean', del.bind(null, ['./dist/production',"./dist/upload"]));
 
-gulp.task('modules',["mine"], function() {
+gulp.task('modules',["clean","awsmodules"], function() {
   mkdirp('./dist/production', function (err) {
     if (err) console.error(err);
-    else console.log('pow!');
   });
 
   return gulp.src("./package.json")
@@ -17,29 +16,30 @@ gulp.task('modules',["mine"], function() {
     .pipe(install({production: true}));
 });
 
-gulp.task('mine', function() {
-  mkdirp('./dist/production', function (err) {
+gulp.task('awsmodules', function() {
+  return gulp.src([
+    './*.js',
+    'awsmodules/**'
+    ],{base : '.'})
+  .pipe(gulp.dest('./dist/production'));
+});
+
+gulp.task('zip',function() {
+  mkdirp('./dist/upload', function (err) {
     if (err) console.error(err);
-    else console.log('pow!');
   });
 
   return gulp.src([
-    './*.js',
-    'my/**'
-    ],{base : '.'})
-    .pipe(gulp.dest('dist/production'));
-  });
-gulp.task('default',["clean"], function() {
-  mkdirp('./dist/upload', function (err) {
-    if (err) console.error(err);
-    else console.log('pow!');
-  });
+    './dist/production/**',
+  ],{base : './dist/production'})
+      .pipe(zip('module.zip'))
+      .pipe(gulp.dest('./dist/upload'));
+});
 
-    return gulp.src([
-      'dist/production/**',
-    ],{base : 'dist/production/'})
-        .pipe(zip('module.zip'))
-        .pipe(gulp.dest('./upload'));
+gulp.task('rebuild',["clean","modules","awsmodules"], function() {
+});
+
+gulp.task('default',["zip"], function() {
 });
 
 var fs = require('fs');

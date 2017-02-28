@@ -1,0 +1,3 @@
+[submodule "awsmodules"]
+	path = awsmodules
+	url = https://doomo_san@bitbucket.org/doomo_san/awsmodules.git
